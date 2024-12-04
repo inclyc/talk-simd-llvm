@@ -1,0 +1,16 @@
+{
+    "name": "docs",
+    "version": "1.0.0",
+    "devDependencies": {
+        "typescript": "^4.0.0"
+    },
+    "scripts": {
+        "bundle": "esbuild app.ts --bundle --outdir=out"
+    },
+    "dependencies": {
+        "@types/reveal.js": "^5.0.4",
+        "@viz-js/viz": "^3.11.0",
+        "reveal.js": "^5.1.0"
+    },
+    "license": "MIT"
+}

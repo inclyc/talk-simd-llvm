@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="/node_modules/reveal.js/dist/theme/white.css" />
+    <title>SIMD backend implementation in LLVM</title>
+    <script type="module" src="out/app.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bitmaks/cm-web-fonts@latest/fonts.css">
+    <style>
+        .slides {
+            font-family: "Computer Modern Sans", sans-serif;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3,
+        .reveal h4,
+        .reveal h5,
+        .reveal h6 {
+            text-transform: none;
+            text-align: left;
+            vertical-align: top;
+            font-family: "Computer Modern Sans", sans-serif;
+        }
+
+        .email {
+            font-family: monospace;
+            font-size: 70%
+        }
+
+        .institute {
+            padding-top: 30px;
+            font-size: 70%;
+        }
+
+        .reveal del {
+            opacity: 70%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section data-auto-animate>
+                <h4 style="text-align: center">在 LLVM 中支持新向量指令集</h4>
+                <p>Yingchi Long</p>
+                <p class="email">longyingchi24s@ict.ac.cn</p>
+                <p class="institute">Institute of Computing Technology, CAS</p>
+            </section>
+            <section data-auto-animate>
+                <h4>Overview</h4>
+                <p>Things to do:</p>
+                <ul>
+                    <li class="fragment fade-up">scalar IR $\to$ vector IR</li>
+                    <li class="fragment fade-up">vector IR $\to$ machine code</li>
+                </ul>
+            </section>
+            <section data-auto-animate>
+                <h4>Overview</h4>
+                <p>Things to do:</p>
+                <ul>
+                    <li>Pass, but guided by the backend</li>
+                    <li>vector IR $\to$ machine code</li>
+                </ul>
+            </section>
+            <section data-auto-animate>
+                <h4>Overview</h4>
+                <p>Things to do:</p>
+                <ul>
+                    <li>Pass, but guided by the backend</li>
+                    <li>SelectionDAG algorithm
+                        <ul class="fragment">
+                            <li class="fragment fade-up">BasicBlock-wide</li>
+                            <li class="fragment fade-up">Pattern-based <i>Rewrites</i></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <section data-auto-animate>
+                <h4>向量的数据表示</h4>
+            </section>
+            <section data-auto-animate>
+                <h4>向量的数据表示</h4>
+                <p>
+                    假设程序中的基本数据类型有 int、float，<br />
+                    我们如何表示向量数据类型？
+                </p>
+                <ul>
+                    <li class="fragment fade-up">给他们前面加上数量</li>
+                    <li class="fragment fade-up">8 x float, 4 x int</li>
+                    <li class="fragment fade-up">对 X86, Neon(ARM) 等指令集有效</li>
+                    <li class="fragment fade-up">对 RVV, SVE <del>这些比较原神的扩展</del>表现力有限</li>
+                </ul>
+            </section>
+            <!-- TODO: 或许介绍一下 LoopVectorize/SLP Vectorize -->
+            <section data-auto-animate>
+                <h4>IR 与新指令的对应关系：指令选择算法</h4>
+                <ul>
+                    <li class="fragment fade-up">目前来说，默认使用基于 SelectionDAG 的算法</li>
+                    <li class="fragment fade-up">一种图结构，bb 内，不包含控制流</li>
+                    <li class="fragment fade-up">用节点代表一次运算，后继表示操作数</li>
+                    <li class="fragment fade-up">节点具有类型</li>
+                    <li class="fragment fade-up">访存节点，例如 Load，Store ，接受一个特殊的参数，建模内存状态</li>
+                </ul>
+            </section>
+            <section>
+                <h4>SelectionDAG</h4>
+                <figure>
+                    <div id="sdag-basic"></div>
+                    <figcaption>可以用 DAG 表意数据的流动关系</figcaption>
+                </figure>
+            </section>
+            <!-- SelectionDAG 的一个例子 -->
+            <section data-auto-animate>
+                <h4>SelectionDAG: 将 IR 逐渐翻译到目标指令 (ISel)</h4>
+                <p>
+                <ul>
+                    <li>
+                        合法化
+                        <ol>
+                            <li>Types</li>
+                            <li>Operation</li>
+                        </ol>
+                    </li>
+                    <li>
+                        DAG $\to$ DAG ISel
+                    </li>
+                </ul>
+                </p>
+            </section>
+        </div>
+    </div>
+</body>
