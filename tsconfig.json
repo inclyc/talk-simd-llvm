@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "lib": [
+            "dom",
+            "es6"
+        ]
+    },
+    "include": [
+        "app.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
