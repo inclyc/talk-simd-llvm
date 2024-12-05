@@ -2,11 +2,11 @@
     "name": "docs",
     "version": "1.0.0",
     "devDependencies": {
+        "gulp": "^5.0.0",
         "typescript": "^4.0.0"
     },
     "scripts": {
-        "bundle": "node build/build.mjs",
-        "bundle-watch": "node build/watch.mjs"
+        "watch": "gulp watch"
     },
     "dependencies": {
         "@types/reveal.js": "^5.0.4",
