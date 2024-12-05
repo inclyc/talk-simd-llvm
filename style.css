@@ -1,0 +1,45 @@
+@import "reveal.js/dist/reveal.css";
+@import "reveal.js/dist/theme/white.css";
+
+.slides {
+    font-family: "Computer Modern Sans", sans-serif;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+    text-transform: none;
+    text-align: left;
+    vertical-align: top;
+    font-family: "Computer Modern Sans", sans-serif;
+}
+
+.email {
+    font-family: monospace;
+    font-size: 70%
+}
+
+.institute {
+    padding-top: 30px;
+    font-size: 40%;
+}
+
+.reveal del {
+    opacity: 70%;
+    font-size: 60%;
+}
+
+figcaption {
+    font-size: 60%;
+}
+
+.container {
+    display: flex;
+}
+
+.col {
+    flex: 1;
+}

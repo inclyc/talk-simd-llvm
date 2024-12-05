@@ -5,17 +5,21 @@ import { instance as vizInstance } from "@viz-js/viz";
 
 
 vizInstance().then(viz => {
-    const svg = viz.renderSVGElement(`
-digraph {
-  1 -> "+"
-  2 -> "+"
-  "+" -> "*"
-  2 -> "*"
-}`)
-    document.getElementById("sdag-basic")!.appendChild(svg);
-})
+    const elements = document.querySelectorAll('[data-viz]');
+
+    elements.forEach((element) => {
+        if (element.textContent) {
+            const svg = viz.renderSVGElement(element.textContent);
+            // Clear previous HTML content.
+            element.innerHTML = "";
+            // Replace it with rendered SVG.
+            element.appendChild(svg);
+        }
+    });
+});
 
 let deck = new Reveal({
     plugins: [Markdown, RevealMath.KaTeX],
+    hash: true,
 });
 deck.initialize();
