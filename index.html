@@ -1,42 +1,10 @@
 <!DOCTYPE html>
 
 <head>
-    <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
-    <link rel="stylesheet" href="/node_modules/reveal.js/dist/theme/white.css" />
     <title>SIMD backend implementation in LLVM</title>
     <script type="module" src="out/app.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/bitmaks/cm-web-fonts@latest/fonts.css">
-    <style>
-        .slides {
-            font-family: "Computer Modern Sans", sans-serif;
-        }
-
-        .reveal h1,
-        .reveal h2,
-        .reveal h3,
-        .reveal h4,
-        .reveal h5,
-        .reveal h6 {
-            text-transform: none;
-            text-align: left;
-            vertical-align: top;
-            font-family: "Computer Modern Sans", sans-serif;
-        }
-
-        .email {
-            font-family: monospace;
-            font-size: 70%
-        }
-
-        .institute {
-            padding-top: 30px;
-            font-size: 70%;
-        }
-
-        .reveal del {
-            opacity: 70%;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="out/style.css" />
 </head>
 
 <body>
@@ -47,6 +15,35 @@
                 <p>Yingchi Long</p>
                 <p class="email">longyingchi24s@ict.ac.cn</p>
                 <p class="institute">Institute of Computing Technology, CAS</p>
+            </section>
+            <section>
+                <h4>Agenda</h4>
+                <ol>
+                    <li>基本概念: Module, Function, BasicBlock</li>
+                    <li>向量化需要做什么工作？</li>
+                    <li>标量 IR $\to$ 向量 IR：指导已有 Pass</li>
+                    <li>
+                        向量 IR $\to$ 机器指令：指令选择算法
+                        <ul>
+                            <li>对齐了吗？</li>
+                            <li>会溢出吗？</li>
+                            <li>把标量当向量的骚操作？</li>
+                        </ul>
+                    </li>
+                    <li>Future Work: RVV/SVE</li>
+                    <li>小结</li>
+                </ol>
+            </section>
+            <section>
+                <h4>基本概念：Module, Function, BasicBlock</h4>
+                <ul>
+                    <li>IR: Intermediate Representation, 中间表示</li>
+                    <li>Module: 从一个{.c, .cpp<del>,crate</del>}生成</li>
+                    <li>Function: 对应每一个程序中的函数</li>
+                    <li>BasicBlock: 不带控制流的指令序列</li>
+                    <li>Module := Function*</li>
+                    <li>Function := BasicBlock*</li>
+                </ul>
             </section>
             <section data-auto-animate>
                 <h4>Overview</h4>
@@ -70,7 +67,7 @@
                 <ul>
                     <li>Pass, but guided by the backend</li>
                     <li>SelectionDAG algorithm
-                        <ul class="fragment">
+                        <ul>
                             <li class="fragment fade-up">BasicBlock-wide</li>
                             <li class="fragment fade-up">Pattern-based <i>Rewrites</i></li>
                         </ul>
@@ -83,7 +80,7 @@
             <section data-auto-animate>
                 <h4>向量的数据表示</h4>
                 <p>
-                    假设程序中的基本数据类型有 int、float，<br />
+                    基本数据类型： int、float, ...<br />
                     我们如何表示向量数据类型？
                 </p>
                 <ul>
@@ -98,18 +95,62 @@
                 <h4>IR 与新指令的对应关系：指令选择算法</h4>
                 <ul>
                     <li class="fragment fade-up">目前来说，默认使用基于 SelectionDAG 的算法</li>
-                    <li class="fragment fade-up">一种图结构，bb 内，不包含控制流</li>
-                    <li class="fragment fade-up">用节点代表一次运算，后继表示操作数</li>
-                    <li class="fragment fade-up">节点具有类型</li>
-                    <li class="fragment fade-up">访存节点，例如 Load，Store ，接受一个特殊的参数，建模内存状态</li>
+                    <li class="fragment fade-up">有向无环图结构，bb 内，不包含控制流</li>
+                    <li class="fragment fade-up">用节点代表一次运算，前驱表示操作数</li>
                 </ul>
             </section>
-            <section>
-                <h4>SelectionDAG</h4>
-                <figure>
-                    <div id="sdag-basic"></div>
+            <section data-auto-animate>
+                <h4>SelectionDAG 的结构</h4>
+                <figure data-id="simple-sdag">
+                    <div data-viz>
+                        digraph {
+                        1 -> "+"
+                        2 -> "+"
+                        "+" -> "*"
+                        2 -> "*"
+                        }
+                    </div>
                     <figcaption>可以用 DAG 表意数据的流动关系</figcaption>
                 </figure>
+            </section>
+            <section data-auto-animate>
+                <h4>SelectionDAG 的结构</h4>
+                <figure data-id="simple-sdag">
+                    <div data-viz>
+                        digraph {
+                        1 -> "+"
+                        2 -> "+"
+                        "+" -> "*"
+                        2 -> "*"
+                        }
+                    </div>
+                    <figcaption>可以用 DAG 表意数据的流动关系</figcaption>
+                </figure>
+                <p><del>它没这么简单</del></p>
+                <ul data-id="f748a4c5-7ede-4545-9e32-39b78dc2bfcd">
+                    <li class="fragment fade-up">Load/Store ?</li>
+                    <li class="fragment fade-up">vadd, add, fadd</li>
+                    <li class="fragment fade-up">控制流</li>
+                </ul>
+            </section>
+            <section data-auto-animate>
+                <h4>SelectionDAG 的结构</h4>
+                <div class="container">
+                    <div class="col">
+                        <ul data-id="f748a4c5-7ede-4545-9e32-39b78dc2bfcd">
+                            <li>Load/Store ?</li>
+                            <li>vadd, add, fadd</li>
+                            <li>控制流</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <ul>
+                            <li class="fragment fade-up">访存多接受一个参数</li>
+                            <li class="fragment fade-up">每个数据类型都有 Type</li>
+                            <li class="fragment fade-up">不支持复杂控制流</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
             <!-- SelectionDAG 的一个例子 -->
             <section data-auto-animate>
