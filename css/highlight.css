@@ -1,0 +1,74 @@
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: #2E3440;
+    /* Nord 0 */
+    color: #D8DEE9;
+}
+
+.hljs-tag,
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-strong,
+.hljs-name {
+    color: #BF616A;
+    /* Nord 11 Red */
+}
+
+.hljs-code {
+    color: #8FBCBB;
+    /* Nord 7 */
+}
+
+.hljs-class .hljs-title {
+    color: #D8DEE9;
+    /* Nord 5 */
+}
+
+.hljs-attribute,
+.hljs-symbol,
+.hljs-regexp,
+.hljs-link {
+    color: #B48EAD;
+    /* Nord 13 Purple */
+}
+
+.hljs-string,
+.hljs-bullet,
+.hljs-subst,
+.hljs-title,
+.hljs-section,
+.hljs-emphasis,
+.hljs-type,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-addition,
+.hljs-variable,
+.hljs-template-tag,
+.hljs-template-variable {
+    color: #A3BE8C;
+    /* Nord 10 Green */
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion,
+.hljs-meta {
+    color: #4C566A;
+    /* Nord 4 */
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-doctag,
+.hljs-title,
+.hljs-section,
+.hljs-type,
+.hljs-selector-id {
+    font-weight: bold;
+}
