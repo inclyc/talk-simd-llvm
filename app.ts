@@ -1,6 +1,8 @@
 import Reveal from 'reveal.js';
 import Markdown from 'reveal.js/plugin/markdown/markdown.esm.js';
 import RevealMath from 'reveal.js/plugin/math/math.esm.js';
+import RevealHilight from 'reveal.js/plugin/highlight/highlight.esm';
+
 import { instance as vizInstance } from "@viz-js/viz";
 
 
@@ -21,7 +23,7 @@ vizInstance().then(viz => {
 });
 
 let deck = new Reveal({
-    plugins: [Markdown, RevealMath.KaTeX],
+    plugins: [Markdown, RevealMath.KaTeX, RevealHilight],
     hash: true,
 });
 deck.initialize();
