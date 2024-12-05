@@ -52,3 +52,7 @@ figcaption {
 .col {
     flex: 1;
 }
+
+span.figure {
+    color: #002176f1;
+}
