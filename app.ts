@@ -27,3 +27,16 @@ let deck = new Reveal({
     hash: true,
 });
 deck.initialize();
+
+// Adjust figure capitons.
+const figcaptions = document.querySelectorAll('figcaption');
+
+figcaptions.forEach(figcaption => {
+    const span = document.createElement('span');
+    span.classList.add('figure');
+    span.textContent = `图：`;
+
+    if (!figcaption.querySelector('span.figure')) {
+        figcaption.prepend(span);
+    }
+});
