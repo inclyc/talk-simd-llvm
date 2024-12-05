@@ -13,7 +13,9 @@ vizInstance().then(viz => {
             // Clear previous HTML content.
             element.innerHTML = "";
             // Replace it with rendered SVG.
-            element.appendChild(svg);
+            svg.setAttribute("width", "100%");
+            svg.setAttribute("height", "auto");
+            element.replaceWith(svg);
         }
     });
 });
