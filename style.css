@@ -1,5 +1,6 @@
 @import "reveal.js/dist/reveal.css";
 @import "reveal.js/dist/theme/white.css";
+@import "css/highlight.css";
 
 .slides {
     font-family: "Computer Modern Sans", sans-serif;
