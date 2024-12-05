@@ -152,6 +152,73 @@
                     </div>
                 </div>
             </section>
+            <section>
+                <h4>Example: add</h4>
+                <pre><code class="llvm" data-line-numbers="1-4|1|2|3">define i32 @add(i32 %a, i32 %b) {
+    %ret = add i32 %a, %b
+    ret i32 %ret
+}</code></pre>
+            </section>
+            <section>
+                <h4>实际的 SelectionDAG：Type + Chain</h4>
+                <figure data-id="simple-sdag" style="height: 30rem">
+                    <pre data-viz>
+                        digraph "dag-combine1 input for add:" {
+                            rankdir="BT";
+                            Node0x431106d0 [shape=record,shape=Mrecord,label="{EntryToken|t0|{<d0>ch|<d1>glue}}"];
+                            Node0x43168070 [shape=record,shape=Mrecord,label="{Register %0|t1|{<d0>i32}}"];
+                            Node0x431680e0 [shape=record,shape=Mrecord,label="{{<s0>0|<s1>1}|CopyFromReg|t2|{<d0>i32|<d1>ch}}"];
+                            Node0x431680e0:s0 -> Node0x431106d0:d0[color=blue,style=dashed];
+                            Node0x431680e0:s1 -> Node0x43168070:d0;
+                            Node0x43168150 [shape=record,shape=Mrecord,label="{Register %1|t3|{<d0>i32}}"];
+                            Node0x431681c0 [shape=record,shape=Mrecord,label="{{<s0>0|<s1>1}|CopyFromReg|t4|{<d0>i32|<d1>ch}}"];
+                            Node0x431681c0:s0 -> Node0x431106d0:d0[color=blue,style=dashed];
+                            Node0x431681c0:s1 -> Node0x43168150:d0;
+                            Node0x43168230 [shape=record,shape=Mrecord,label="{{<s0>0|<s1>1}|add|t5|{<d0>i32}}"];
+                            Node0x43168230:s0 -> Node0x431680e0:d0;
+                            Node0x43168230:s1 -> Node0x431681c0:d0;
+                        }
+                    </pre>
+                    <figcaption>add i32 %1 %2 的 SelectionDAG</figcaption>
+                </figure>
+            </section>
+            <section data-auto-animate>
+                <h4>Example: load / store: add chains</h4>
+                <pre><code class="llvm" data-line-numbers="1-5|2|3">define void @store(ptr %f) {
+    store i32 1, ptr %f
+    store i32 2, ptr %f
+    ret void
+}</code></pre>
+            </section>
+            <section data-auto-animate>
+                <h4>Example: load / store: add chains</h4>
+                <figure style="height: 30rem">
+                    <pre data-viz>
+                        digraph "dag-combine1 input for store:" {
+                            rankdir="BT";
+                            Node0x3776a290 [shape=record,shape=Mrecord,label="{EntryToken|t0|{<d0>ch|<d1>glue}}"];
+                            Node0x377c1af0 [shape=record,shape=Mrecord,label="{Register %0|t1|{<d0>i64}}"];
+                            Node0x377c1b60 [shape=record,shape=Mrecord,label="{{<s0>0|<s1>1}|CopyFromReg|t2|{<d0>i64|<d1>ch}}"];
+                            Node0x377c1b60:s0 -> Node0x3776a290:d0[color=blue,style=dashed];
+                            Node0x377c1b60:s1 -> Node0x377c1af0:d0;
+                            Node0x377c1bd0 [shape=record,shape=Mrecord,label="{Constant\<1\>|t3|{<d0>i32}}"];
+                            Node0x377c1cb0 [shape=record,shape=Mrecord,label="{undef|t5|{<d0>i64}}"];
+                            Node0x377c1d20 [shape=record,shape=Mrecord,label="{{<s0>0|<s1>1|<s2>2|<s3>3}|store\<(store (s32) into %ir.f)\>|t6|{<d0>ch}}"];
+                            Node0x377c1d20:s0 -> Node0x3776a290:d0[color=blue,style=dashed];
+                            Node0x377c1d20:s1 -> Node0x377c1bd0:d0;
+                            Node0x377c1d20:s2 -> Node0x377c1b60:d0;
+                            Node0x377c1d20:s3 -> Node0x377c1cb0:d0;
+                            Node0x377c1d90 [shape=record,shape=Mrecord,label="{Constant\<2\>|t7|{<d0>i32}}"];
+                            Node0x377c1e00 [shape=record,shape=Mrecord,label="{{<s0>0|<s1>1|<s2>2|<s3>3}|store\<(store (s32) into %ir.f)\>|t8|{<d0>ch}}"];
+                            Node0x377c1e00:s0 -> Node0x377c1d20:d0[color=blue,style=dashed];
+                            Node0x377c1e00:s1 -> Node0x377c1d90:d0;
+                            Node0x377c1e00:s2 -> Node0x377c1b60:d0;
+                            Node0x377c1e00:s3 -> Node0x377c1cb0:d0;
+                        }
+                    </pre>
+                    <figcaption>两个 store，用蓝色的线连接他们的相对顺序</figcaption>
+                </figure>
+            </section>
             <!-- SelectionDAG 的一个例子 -->
             <section data-auto-animate>
                 <h4>SelectionDAG: 将 IR 逐渐翻译到目标指令 (ISel)</h4>
