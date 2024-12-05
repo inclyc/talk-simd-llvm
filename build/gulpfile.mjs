@@ -22,7 +22,8 @@ export async function bundle() {
     await esbuild.build(esbuildConfig);
 }
 
-export const watch = () => {
-    gulp.watch(esbuildEntrypoints, gulp.series(bundle));
-};
+export async function watch() {
+    await bundle();
 
+    gulp.watch(esbuildConfig.entryPoints, gulp.series(bundle));
+}
