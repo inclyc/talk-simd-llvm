@@ -86,6 +86,13 @@
                 <ul>
                     <li class="fragment fade-up">给他们前面加上数量</li>
                     <li class="fragment fade-up">8 x float, 4 x int</li>
+                    <li class="fragment fade-up">
+                        问题：8 x, 4 x 可以支持，$n$ x ？
+                        <ul>
+                            <li class="fragment fade-up">部分支持：vscale x 8 x i32</li>
+                            <li class="fragment fade-up">vscale 为运行时常量</li>
+                        </ul>
+                    </li>
                     <li class="fragment fade-up">对 X86, Neon(ARM) 等指令集有效</li>
                     <li class="fragment fade-up">对 RVV, SVE <del>这些比较原神的扩展</del>表现力有限</li>
                 </ul>
