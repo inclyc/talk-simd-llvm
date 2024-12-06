@@ -241,6 +241,28 @@
                 </ul>
                 </p>
             </section>
+            <section>
+                <h4>先看如何合法化 Type</h4>
+                <ul>
+                    <li class="fragment fade-up">依据：后端给定一系列支持的 Type</li>
+                    <li class="fragment fade-up">自动完成 Promote/Expand 等操作</li>
+                    <li class="fragment fade-up">
+                        小问题：与 Op 是否相关？
+                        <ul class="fragment">
+                            <li>不相关</li>
+                        </ul>
+                    </li>
+                    <li class="fragment fade-up">方法：addRegisterClass()</li>
+                </ul>
+            </section>
+            <section>
+                <h4>合法化 Type: 一些例子</h4>
+                <ul>
+                    <li>i31 $\to$ i32</li>
+                    <li>4 x i32 $\to$ i32, i32, i32, i32</li>
+                    <li>16 x i8 $\to$ 8 x i32, 8 x i32</li>
+                </ul>
+            </section>
         </div>
     </div>
 </body>
