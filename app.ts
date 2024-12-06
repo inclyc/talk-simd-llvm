@@ -40,3 +40,17 @@ figcaptions.forEach(figcaption => {
         figcaption.prepend(span);
     }
 });
+
+// Adjust table captions
+
+const tableCaptions = document.querySelectorAll('table>caption');
+
+tableCaptions.forEach(caption => {
+    const span = document.createElement('span');
+    span.classList.add('tablecaption');
+    span.textContent = `表：`;
+
+    if (!caption.querySelector('span.tablecaption')) {
+        caption.prepend(span);
+    }
+});

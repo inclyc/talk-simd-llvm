@@ -19,6 +19,7 @@
             <section>
                 <h4>Agenda</h4>
                 <ol>
+                    <li>什么程序向量化有收益？</li>
                     <li>基本概念: Module, Function, BasicBlock</li>
                     <li>向量化需要做什么工作？</li>
                     <li>标量 IR $\to$ 向量 IR：指导已有 Pass</li>
@@ -33,6 +34,178 @@
                     <li>Future Work: RVV/SVE</li>
                     <li>小结</li>
                 </ol>
+            </section>
+            <section data-auto-animate>
+                <h4>什么样的程序做向量化有收益？</h4>
+                <div class="spec-table">
+                    <table>
+                        <caption>bisheng 编译器 -O3 下 SPEC2017 整点课题提升情况</caption>
+                        <thead>
+                            <tr>
+                                <th>类别</th>
+                                <th>测试项</th>
+                                <th>关 SIMD</th>
+                                <th>开 SIMD</th>
+                                <th>提升</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="10">整数</td>
+                                <td>600.perlbench_s</td>
+                                <td>3.4</td>
+                                <td>3.39</td>
+                                <td class="highlight">-0.29%</td>
+                            </tr>
+                            <tr>
+                                <td>602.gcc_s</td>
+                                <td>5.79</td>
+                                <td>5.79</td>
+                                <td>0.00%</td>
+                            </tr>
+                            <tr>
+                                <td>605.mcf_s</td>
+                                <td>4.32</td>
+                                <td>4.1</td>
+                                <td class="highlight">-5.09%</td>
+                            </tr>
+                            <tr>
+                                <td>620.omnetpp_s</td>
+                                <td>3.01</td>
+                                <td>2.99</td>
+                                <td>-0.66%</td>
+                            </tr>
+                            <tr>
+                                <td>623.xalancbmk_s</td>
+                                <td>3.45</td>
+                                <td>3.72</td>
+                                <td>7.83%</td>
+                            </tr>
+                            <tr>
+                                <td>625.x264_s</td>
+                                <td>4.1</td>
+                                <td>7.18</td>
+                                <td><strong>75.12%</strong></td>
+                            </tr>
+                            <tr>
+                                <td>631.deepsjeng_s</td>
+                                <td>3.71</td>
+                                <td>3.65</td>
+                                <td>-1.62%</td>
+                            </tr>
+                            <tr>
+                                <td>641.leela_s</td>
+                                <td>3.13</td>
+                                <td>3.16</td>
+                                <td>0.96%</td>
+                            </tr>
+                            <tr>
+                                <td>648.exchange2_s</td>
+                                <td>5.82</td>
+                                <td>5.91</td>
+                                <td>1.55%</td>
+                            </tr>
+                            <tr>
+                                <td>657.xz_s</td>
+                                <td>2.17</td>
+                                <td>2.23</td>
+                                <td>2.76%</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><strong>几何平均</strong></td>
+                                <td>3.74</td>
+                                <td>3.97</td>
+                                <td>6.29%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <section data-auto-animate>
+                <h4>什么样的程序做向量化有收益？</h4>
+                <div class="spec-table">
+                    <table>
+                        <caption>bisheng 编译器 -O3 下 SPEC2017 浮点课题提升情况</caption>
+                        <thead>
+                            <tr>
+                                <th>类别</th>
+                                <th>测试项</th>
+                                <th>关 SIMD</th>
+                                <th>开 SIMD</th>
+                                <th>提升</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="10">浮点</td>
+                                <td>603.bwaves_s</td>
+                                <td>10.8</td>
+                                <td>10.8</td>
+                                <td>0.00%</td>
+                            </tr>
+                            <tr>
+                                <td>607.cactuBSSN_s</td>
+                                <td>2.01</td>
+                                <td>2.02</td>
+                                <td>0.50%</td>
+                            </tr>
+                            <tr>
+                                <td>619.lbm_s</td>
+                                <td>3.3</td>
+                                <td>3.38</td>
+                                <td>2.42%</td>
+                            </tr>
+                            <tr>
+                                <td>621.wrf_s</td>
+                                <td>2.09</td>
+                                <td>3.29</td>
+                                <td>57.42%</td>
+                            </tr>
+                            <tr>
+                                <td>627.cam4_s</td>
+                                <td>1.03</td>
+                                <td>1.03</td>
+                                <td>0.00%</td>
+                            </tr>
+                            <tr>
+                                <td>628.pop2_s</td>
+                                <td>1.71</td>
+                                <td>1.97</td>
+                                <td>15.20%</td>
+                            </tr>
+                            <tr>
+                                <td>638.imagick_s</td>
+                                <td>1.6</td>
+                                <td>1.6</td>
+                                <td>0.00%</td>
+                            </tr>
+                            <tr>
+                                <td>644.nab_s</td>
+                                <td>3.91</td>
+                                <td>3.92</td>
+                                <td>0.26%</td>
+                            </tr>
+                            <tr>
+                                <td>649.fotonik3d_s</td>
+                                <td>3.59</td>
+                                <td>5.14</td>
+                                <td>43.18%</td>
+                            </tr>
+                            <tr>
+                                <td>654.roms_s</td>
+                                <td>1.85</td>
+                                <td>2.79</td>
+                                <td>50.81%</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><strong>几何平均</strong></td>
+                                <td>2.53</td>
+                                <td>2.91</td>
+                                <td>14.99%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
             <section>
                 <h4>基本概念：Module, Function, BasicBlock</h4>
