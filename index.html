@@ -270,6 +270,21 @@
                     <li>16 x i8 $\to$ 8 x i32, 8 x i32</li>
                 </ul>
             </section>
+            <section>
+                <h4>合法化 Op: Expand/Custom/Legal</h4>
+                <ul>
+                    <li class="fragment fade-up">对象：(Op, Type) 元组</li>
+                    <li class="fragment fade-up">(Op, Type) $\to$ "Expand" | "Custom" | "Legal"</li>
+                    <li class="fragment fade-up">Target 支持 (Op, Type) $\to$ Legal</li>
+                    <li class="fragment fade-up">
+                        Target 不支持某些Op $\to$ 需要合法化
+                        <ul>
+                            <li class="fragment fade-up">展开成标量：Expand</li>
+                            <li class="fragment fade-up">编写代码自力更生：Custom</li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
         </div>
     </div>
 </body>
