@@ -94,9 +94,14 @@
             <section data-auto-animate>
                 <h4>IR 与新指令的对应关系：指令选择算法</h4>
                 <ul>
-                    <li class="fragment fade-up">目前来说，默认使用基于 SelectionDAG 的算法</li>
-                    <li class="fragment fade-up">有向无环图结构，bb 内，不包含控制流</li>
-                    <li class="fragment fade-up">用节点代表一次运算，前驱表示操作数</li>
+                    <li class="fragment fade-up">
+                        数据结构：SelectionDAG
+                        <ul>
+                            <li class="fragment fade-up">有向无环图结构，bb 内，不包含控制流</li>
+                            <li class="fragment fade-up">用节点代表一次运算，前驱表示操作数</li>
+                        </ul>
+                    </li>
+                    <li class="fragment fade-up">算法：Rewrites - based on pattern-matching</li>
                 </ul>
             </section>
             <section data-auto-animate>
@@ -219,7 +224,6 @@
                     <figcaption>两个 store，用蓝色的线连接他们的相对顺序</figcaption>
                 </figure>
             </section>
-            <!-- SelectionDAG 的一个例子 -->
             <section data-auto-animate>
                 <h4>SelectionDAG: 将 IR 逐渐翻译到目标指令 (ISel)</h4>
                 <p>
