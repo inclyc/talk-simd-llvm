@@ -54,3 +54,17 @@ tableCaptions.forEach(caption => {
         caption.prepend(span);
     }
 });
+
+
+// Add the divier for containers.
+const containers = document.querySelectorAll('.container');
+
+containers.forEach(container => {
+    const cols = container.querySelectorAll('.col');
+    for (let i = 0; i < cols.length - 1; i++) {
+        const divider = document.createElement('div');
+        divider.classList.add('divider');
+        cols[i].parentNode?.insertBefore(divider, cols[i].nextSibling);
+    }
+})
+

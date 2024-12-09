@@ -52,6 +52,16 @@ figcaption {
 
 .col {
     flex: 1;
+    font-size: 80%;
+}
+
+.container>* {
+    margin-right: 3px
+}
+
+.divider {
+    width: 1px;
+    background: rgb(185, 185, 185);
 }
 
 span.figure {
