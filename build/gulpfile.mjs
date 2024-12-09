@@ -2,7 +2,7 @@ import * as esbuild from "esbuild";
 import * as gulp from "gulp";
 
 const esbuildEntrypoints = ['app.ts', 'style.css'];
-const assetPaths = ["index.html"];
+const assetPaths = ["images/**/*", "index.html"];
 const outdir = "out";
 
 const esbuildConfig = {
@@ -23,7 +23,11 @@ export async function bundle() {
 }
 
 export async function copyAssets() {
-    return gulp.src(assetPaths, { base: '.' })
+    return gulp
+        .src(assetPaths, {
+            base: '.',
+            encoding: false,
+        })
         .pipe(gulp.dest(outdir));
 }
 
