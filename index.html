@@ -685,6 +685,20 @@ static NOINLINE int x264_pixel_satd_8x4( uint8_t *pix1, int i_pix1, uint8_t *pix
                     <li class="fragment fade-up"><del>感觉不如手写，效率不高</del></li>
                 </ul>
             </section>
+            <section>
+                <h4>总结</h4>
+                <ul>
+                    <li>向量化，收益看 Workload</li>
+                    <li>标量 IR → 向量 IR，指导已有框架就行</li>
+                    <li>向量 IR → 指令集，靠的是 SelectionDAG 的“花式操作”</li>
+                    <li>增加向量寄存器长度，不如增加点操作</li>
+                    <li>未来工作：RVV、SVE、GISel，还得加油</li>
+                </ul>
+            </section>
+            <section>
+                <h4>Question Time</h4>
+                <img src="images/c8b3ec2b-a5a3-4f53-9e20-d8490c18ed6d.webp" width="30%" />
+            </section>
         </div>
     </div>
 </body>
