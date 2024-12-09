@@ -26,15 +26,11 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      - run: npm run bundle
-      - run: |
-          mkdir -p dist
-          mv out/ dist/
-          mv index.html dist/
+      - run: npm run gulp build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-           path: dist/
+           path: out/
 
   deploy:
     environment:

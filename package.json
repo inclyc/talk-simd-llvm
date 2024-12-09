@@ -6,9 +6,7 @@
         "typescript": "^4.0.0"
     },
     "scripts": {
-        "gulp": "gulp",
-        "watch": "gulp watch",
-        "bundle": "gulp bundle"
+        "gulp": "gulp"
     },
     "dependencies": {
         "@types/reveal.js": "^5.0.4",
