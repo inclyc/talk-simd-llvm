@@ -458,6 +458,29 @@
                     </li>
                 </ul>
             </section>
+            <section>
+                <h4>合法化 Op: Expand/Custom/Legal</h4>
+                <div class="container">
+                    <div class="col">
+                        <p>某Arch支持向量指令：</p>
+                        <ul>
+                            <li>整数加法减法</li>
+                            <li>向量移位，但移位量必须是常数</li>
+                            <li>xor, or, and 位运算</li>
+                            <li>不支持非对齐访存</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <p>如何合法化 Op:</p>
+                        <ul>
+                            <li class="fragment fade-up"><code>ADD/SUB</code></li>
+                            <li class="fragment fade-up"><code>SRA</code></li>
+                            <li class="fragment fade-up"><code>MUL</code></li>
+                            <li class="fragment fade-up"><code>LOAD/STORE</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </body>
