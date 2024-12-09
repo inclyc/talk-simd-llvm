@@ -500,6 +500,24 @@
                     <li class="fragment fade-up">i8 i32 都是 i ，倒腾一下也能用！</li>
                 </ul>
             </section>
+            <section>
+                <h4>Future Work: GlobalISel</h4>
+                <ul>
+                    <li>ISel 是 per BB 的，丢失信息</li>
+                    <li>InstCombine/DAGCombine 重复代码</li>
+                    <li class="fragment fade-up">$\to$ 新框架，全局地进行指令选择</li>
+                    <li class="fragment fade-up">未来可期，aarch64/riscv 后端支持还不错</li>
+                    <li class="fragment fade-up">信创后端不适配</li>
+                </ul>
+            </section>
+            <section>
+                <h4>Fuuuuture Work: RVV / SVE</h4>
+                <ul>
+                    <li class="fragment fade-up">框架表意比较困难，目前对 SVE 支持更好</li>
+                    <li class="fragment fade-up">在 MLIR 中有一些实践</li>
+                    <li class="fragment fade-up"><del>感觉不如手写，效率不高</del></li>
+                </ul>
+            </section>
         </div>
     </div>
 </body>
