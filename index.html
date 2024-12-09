@@ -277,6 +277,74 @@
                     <li class="fragment fade-up">对 RVV, SVE <del>这些比较原神的扩展</del>表现力有限</li>
                 </ul>
             </section>
+            <section>
+                <h4>scalar IR $\to$ vector IR</h4>
+                <ul>
+                    <li class="fragment fade-up">已有 Pass 来完成，可以所有 Target 共用</li>
+                    <li class="fragment fade-up">问题：simd 指令集差别很大，如何共用？</li>
+                    <li class="fragment fade-up">方案：提供信息，指导公共Pass</li>
+                    <li class="fragment fade-up">具体来说呢？--重写虚函数</li>
+                    <li class="fragment fade-up"><code>TargetTransformInfo</code></li>
+                </ul>
+            </section>
+            <section>
+                <h4>scalar IR $\to$ vector IR</h4>
+                <div class="container">
+                    <div class="col">
+                        <p>中端可能感兴趣什么问题？</p>
+                        <ul>
+                            <li>向量有多长</li>
+                            <li>运算的 Cost</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <p>后端如何实现？</p>
+                        <ul>
+                            <li>硬件支持：输出 Cost</li>
+                            <li>不支持：根据自己做了什么转换，递归</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h4>什么是 Cost?</h4>
+                <table style="width: 80%; font-size: 60%;">
+                    <thead>
+                        <tr>
+                            <th>后端提供的代价类型</th>
+                            <th>语义</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>TCK_RecipThroughput</code></td>
+                            <td>吞吐量倒数</td>
+                        </tr>
+                        <tr>
+                            <td><code>TCK_Latency</code></td>
+                            <td>指令延迟</td>
+                        </tr>
+                        <tr>
+                            <td><code>TCK_CodeSize</code></td>
+                            <td>指令产生的二进制大小</td>
+                        </tr>
+                        <tr>
+                            <td><code>TCK_SizeAndLatency</code></td>
+                            <td>二进制大小与延迟的加权和</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="fragment">Funny thing: <br /><span class="fragment">后端：所有代价类型都输出同一个数</span></p>
+            </section>
+            <section>
+                <h4>scalar IR $\to$ vec IR 小结</h4>
+                <ul>
+                    <li>override 虚函数，提供信息</li>
+                    <li>信息包括代价、向量寄存器长度、数量</li>
+                    <li><del>这个代价做的粗糙点也没问题</del></li>
+                    <li>有了 vec IR ，现在怎么生成 asm/obj?</li>
+                </ul>
+            </section>
             <section data-auto-animate>
                 <h4>IR 与新指令的对应关系：指令选择算法</h4>
                 <ul>
