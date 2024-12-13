@@ -20,8 +20,8 @@
                 <h4>Agenda</h4>
                 <ol>
                     <li>什么程序向量化有收益？</li>
-                    <li>基本概念: Module, Function, BasicBlock</li>
                     <li>向量化需要做什么工作？</li>
+                    <li>基本概念: Module, Function, BasicBlock</li>
                     <li>标量 IR $\to$ 向量 IR：指导已有 Pass</li>
                     <li>
                         向量 IR $\to$ 机器指令：指令选择算法
@@ -207,16 +207,18 @@
                     </table>
                 </div>
             </section>
-            <section>
-                <h4>基本概念：Module, Function, BasicBlock</h4>
+            <section data-auto-animate>
+                <h4>Overview</h4>
+                <p>Things to do:</p>
                 <ul>
-                    <li>IR: Intermediate Representation, 中间表示</li>
-                    <li>Module: 从一个{.c, .cpp<del>,crate</del>}生成</li>
-                    <li>Function: 对应每一个程序中的函数</li>
-                    <li>BasicBlock: 不带控制流的指令序列</li>
-                    <li>Module := Function*</li>
-                    <li>Function := BasicBlock*</li>
-                </ul>
+                    <ul>
+                        <li class="fragment fadeup">编译器：codegen, calling conv</li>
+                        <li class="fragment fadeup">JIT: v8, JVM</li>
+                        <li class="fragment fadeup">glibc <a
+                                href="https://github.com/bminor/glibc/blob/master/sysdeps/x86_64/dl-trampoline.h">dl-trampoline.S</a>
+                        </li>
+                        <li class="fragment fadeup">kernel: alignment, fp denormal</li>
+                    </ul>
             </section>
             <section data-auto-animate>
                 <h4>Overview</h4>
@@ -253,6 +255,17 @@
                     <img src="images/vector-overview.png" />
                     <figcaption>整体流程</figcaption>
                 </figure>
+            </section>
+            <section>
+                <h4>基本概念：Module, Function, BasicBlock</h4>
+                <ul>
+                    <li>IR: Intermediate Representation, 中间表示</li>
+                    <li>Module: 从一个{.c, .cpp<del>,crate</del>}生成</li>
+                    <li>Function: 对应每一个程序中的函数</li>
+                    <li>BasicBlock: 不带控制流的指令序列</li>
+                    <li>Module := Function*</li>
+                    <li>Function := BasicBlock*</li>
+                </ul>
             </section>
             <section data-auto-animate>
                 <h4>向量的数据表示</h4>
