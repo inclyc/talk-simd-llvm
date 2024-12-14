@@ -530,7 +530,7 @@
                     <li>16 x i8 $\to$ 8 x i32, 8 x i32</li>
                 </ul>
             </section>
-            <section>
+            <section data-auto-animate>
                 <h4>合法化 Op: Expand/Custom/Legal</h4>
                 <ul>
                     <li class="fragment fade-up">对象：(Op, Type) 元组</li>
@@ -545,7 +545,7 @@
                     </li>
                 </ul>
             </section>
-            <section>
+            <section data-auto-animate>
                 <h4>合法化 Op: Expand/Custom/Legal</h4>
                 <div class="container">
                     <div class="col">
@@ -564,7 +564,82 @@
                             <li class="fragment fade-up"><code>SRA</code></li>
                             <li class="fragment fade-up"><code>MUL</code></li>
                             <li class="fragment fade-up"><code>LOAD/STORE</code></li>
+                            <li class="fragment fade-up"><code>BSWAP</code></li>
+                            <li class="fragment fade-up"><code>ABS</code></li>
                         </ul>
+                    </div>
+                </div>
+            </section>
+            <section data-auto-animate>
+                <h4>合法化 Op: Expand/Custom/Legal</h4>
+                <div class="container">
+                    <div class="col">
+                        <p>某Arch支持向量指令：</p>
+                        <ul>
+                            <li>整数加法减法</li>
+                            <li>向量移位，但移位量必须是常数</li>
+                            <li>xor, or, and 位运算</li>
+                            <li>不支持非对齐访存</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <p>Load Store?</p>
+                        <p>拆成两个 + Combine</p>
+                        <p>Load p $\Rightarrow$ <br /> Load p_low + Load p_hi</p>
+                        <p>如果还不对齐的话，需要 memcpy</p>
+                    </div>
+                </div>
+                <p style="font-size: 65%;">
+                    地址对齐是前端分析出来并一路从中端传到后端的 <br />
+                    要分析正确、传递正确
+                </p>
+            </section>
+            <section data-auto-animate>
+                <h4>合法化 Op: Expand/Custom/Legal</h4>
+                <div class="container">
+                    <div class="col">
+                        <p>某Arch支持向量指令：</p>
+                        <ul>
+                            <li>整数加法减法</li>
+                            <li>向量移位，但移位量必须是常数</li>
+                            <li>xor, or, and 位运算</li>
+                            <li>不支持非对齐访存</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <p>Byte Swap (from Chromium)?</p>
+                        <p>整体移位 + or</p>
+                        <p>$(A_0, A_1, A_2, A_3)$</p>
+                        <p>$(A_3, O, O, O)$</p>
+                        <p>$(O, A_2, O, O)$</p>
+                        <p>$(O, O, A_1, O)$</p>
+                    </div>
+                </div>
+            </section>
+            <section data-auto-animate>
+                <h4>合法化 Op: Expand/Custom/Legal</h4>
+                <div class="container">
+                    <div class="col">
+                        <p>某Arch支持向量指令：</p>
+                        <ul>
+                            <li>整数加法减法</li>
+                            <li>向量移位，但移位量必须是常数</li>
+                            <li>xor, or, and 位运算</li>
+                            <li>不支持非对齐访存</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <p>ABS?</p>
+                        <p>(SRA x, type_size - 1) = $t$<br />
+                            (ABS x) = (XOR (ADD x, $t$), $t$)</p>
+                        <p>
+                        <p>
+                            例子：8 位整数 -5 = $11111011_2$ <br />
+                            $t$ = -1 <br />
+                            $11111010_2$ xor $11111111_2$ <br />
+                            = $11111111_2$
+                        </p>
+                        </p>
                     </div>
                 </div>
             </section>
