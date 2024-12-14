@@ -293,7 +293,8 @@
             <section>
                 <h4>scalar IR $\to$ vector IR</h4>
                 <ul>
-                    <li class="fragment fade-up">已有 Pass 来完成，可以所有 Target 共用</li>
+                    <li class="fragment fade-up"><a href="https://godbolt.org/z/erxfrxKrr"> → godbolt</a></li>
+                    <li class=" fragment fade-up">已有 Pass 来完成，可以所有 Target 共用</li>
                     <li class="fragment fade-up">问题：simd 指令集差别很大，如何共用？</li>
                     <li class="fragment fade-up">方案：提供信息，指导公共Pass</li>
                     <li class="fragment fade-up">具体来说呢？--重写虚函数</li>
